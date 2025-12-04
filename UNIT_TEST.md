@@ -1,7 +1,8 @@
 # PHẦN 3: UNIT TEST VỚI JEST + REACT NATIVE TESTING LIBRARY
 
 ## test
-![Coverage](./coverage/badges/coverage-jest.svg)
+![Coverage](./coverage-badge.svg)
+
 
 
 

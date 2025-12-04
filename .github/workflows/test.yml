@@ -1,40 +1,60 @@
-name: CI Test & Coverage Badge
+name: CI - Test & Coverage
 
 on:
   push:
-    branches: [main, UnitTest]
+    branches: [ main, UnitTest, develop ]
   pull_request:
-    branches: [main]
+    branches: [ main, develop ]
+
+permissions:
+  contents: write   # cần để commit badge
+  actions: read
+  checks: write
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      # Checkout source
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      # Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: 18
+          cache: npm
 
-      - name: Install deps
+      # Install dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: Run tests
-        run: npm test -- --coverage
+      # Run Jest with coverage
+      - name: Run tests with coverage
+        run: npm run test -- --coverage --coverageReporters="lcov" --coverageReporters="json-summary"
 
-      - name: Generate coverage badge
-        uses: cuchi/jest-badges-action@v2
+      # Upload coverage folder to GitHub Artifact
+      - name: Upload coverage artifacts
+        uses: actions/upload-artifact@v4
         with:
-          coverage-summary-path: coverage/coverage-summary.json
-          output-path: coverage/badges
+          name: coverage-report
+          path: coverage
 
+      # Generate coverage badge (SVG)
+      - name: Generate coverage badge
+        id: coverage
+        uses: emibcn/badge-action@v2
+        with:
+          label: coverage
+          status: ${{ fromJson(file('coverage/coverage-summary.json')).total.lines.pct }}%
+          color: green
+          filepath: coverage-badge.svg
+
+      # Commit the badge into repo
       - name: Commit coverage badge
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add coverage/badges
-          git commit -m "chore: update coverage badge" || echo "No changes"
-          git push
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update coverage badge"
+          file_pattern: coverage-badge.svg
