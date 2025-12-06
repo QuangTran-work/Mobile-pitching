@@ -5,10 +5,9 @@ import { Colors } from '../constants/colors';
 import { CustomButton } from '../components/CustomButton';
 import { Ionicons } from '@expo/vector-icons';
 
-const { width } = Dimensions.get('window');
-
 const OnboardingScreen = () => {
   const navigation = useNavigation();
+  const { width } = Dimensions.get('window');
   const [currentPage, setCurrentPage] = useState(0);
   const scrollViewRef = useRef<ScrollView>(null);
 
@@ -75,7 +74,7 @@ const OnboardingScreen = () => {
   const renderPage = (page: any, index: number) => {
     if (index === 0) {
       return (
-        <View key={index} style={styles.page}>
+        <View key={index} style={[styles.page, { width }]}>
           <View style={styles.illustrationContainer}>
             <Image 
               source={require('../../assets/welcome1.png')} 
@@ -90,7 +89,7 @@ const OnboardingScreen = () => {
     }
 
     return (
-      <View key={index} style={styles.page}>
+      <View key={index} style={[styles.page, { width }]}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.featuresContainer}>
             {page.features?.map((feature: any, idx: number) => (
@@ -191,20 +190,20 @@ const OnboardingScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
+// Use plain object styles instead of StyleSheet.create for Jest compatibility
+const styles: any = {
   container: {
     flex: 1,
     backgroundColor: Colors.background,
   },
   page: {
-    width,
     flex: 1,
     padding: 24,
     paddingTop: 60,
   },
   illustrationContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
     marginBottom: 40,
     marginTop: 20,
     width: '100%',
@@ -218,23 +217,23 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: 'bold' as const,
     color: Colors.text,
-    textAlign: 'center',
+    textAlign: 'center' as const,
     marginBottom: 16,
   },
   description: {
     fontSize: 16,
     color: Colors.textSecondary,
-    textAlign: 'center',
+    textAlign: 'center' as const,
     lineHeight: 24,
   },
   featuresContainer: {
     marginBottom: 32,
   },
   featureCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'row' as const,
+    alignItems: 'center' as const,
     padding: 16,
     borderRadius: 12,
     marginBottom: 12,
@@ -245,7 +244,7 @@ const styles = StyleSheet.create({
   },
   featureTitle: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '600' as const,
     color: Colors.text,
     marginBottom: 4,
   },
@@ -258,8 +257,8 @@ const styles = StyleSheet.create({
     height: 60,
   },
   availabilityContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'row' as const,
+    alignItems: 'center' as const,
     marginTop: 8,
   },
   availabilityDot: {
@@ -270,44 +269,44 @@ const styles = StyleSheet.create({
   },
   availabilityText: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: '600' as const,
   },
   sectionTitle: {
     fontSize: 22,
-    fontWeight: 'bold',
+    fontWeight: 'bold' as const,
     color: Colors.text,
     marginBottom: 20,
     marginTop: 8,
   },
   stepContainer: {
-    flexDirection: 'row',
+    flexDirection: 'row' as const,
     marginBottom: 20,
-    alignItems: 'flex-start',
+    alignItems: 'flex-start' as const,
   },
   stepNumber: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
     marginRight: 16,
   },
   stepNumberText: {
     color: Colors.background,
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: 'bold' as const,
   },
   stepContent: {
     flex: 1,
   },
   stepHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'row' as const,
+    alignItems: 'center' as const,
     marginBottom: 4,
   },
   stepTitle: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: '600' as const,
     color: Colors.text,
     marginLeft: 8,
   },
@@ -322,8 +321,8 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   dots: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: 'row' as const,
+    justifyContent: 'center' as const,
     marginBottom: 24,
   },
   dot: {
@@ -338,17 +337,16 @@ const styles = StyleSheet.create({
     width: 24,
   },
   buttons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'row' as const,
+    justifyContent: 'space-between' as const,
   },
   skipButton: {
     flex: 0.45,
-
   },
   nextButton: {
     flex: 0.45,
   },
-});
+};
 
 export default OnboardingScreen;
 

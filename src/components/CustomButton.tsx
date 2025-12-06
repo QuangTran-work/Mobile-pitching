@@ -51,13 +51,14 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
+// Use inline styles object that works in both runtime and tests
+const styles: any = {
   button: {
     paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
     minHeight: 50,
   },
   primaryButton: {
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '600' as const,
   },
   primaryText: {
     color: '#FFFFFF',
@@ -87,5 +88,5 @@ const styles = StyleSheet.create({
   outlineText: {
     color: Colors.primary,
   },
-});
+};
 
